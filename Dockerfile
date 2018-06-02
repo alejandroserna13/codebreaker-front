@@ -1,17 +1,9 @@
 FROM node:8.9.4
 
-ADD yarn.lock /yarn.lock
-ADD package.json /package.json
-
-ENV NODE_PATH=/node_modules
-ENV PATH=$PATH:/node_modules/.bin
-RUN yarn
-
-WORKDIR /app
-ADD . /app
-
-EXPOSE 3001
-EXPOSE 35729
-
-ENTRYPOINT ["/bin/bash", "/app/run.sh"]
-CMD ["start"]
+RUN mkdir -p /usr/src/app
+WORKDIR /usr/src/app
+COPY package.json /usr/src/app
+RUN npm install
+COPY . /usr/src/app
+EXPOSE 3000
+CMD ["npm","start"]
